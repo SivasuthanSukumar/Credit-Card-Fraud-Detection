@@ -1,3 +1,1 @@
-# Credit-Card-Fraud-Detection
-"Enhancing Financial Security: Credit Card Fraud Detection Using Machine Learning and Multiple Algorithms"
-
+The "Credit Card Fraud Detection" project leverages machine learning techniques to detect and prevent fraudulent credit card transactions, safeguarding financial security. The dataset, sourced from Kaggle, serves as the foundation for this project. Various algorithms, including Neural Networks with ReLU and Sigmoid activation functions, Naive Bayes, and Random Forest, are employed to analyze transaction data. These methods use features like transaction amount, time, and more to identify potentially unauthorized activities, making the financial system more secure and robust against fraudulent activities.
