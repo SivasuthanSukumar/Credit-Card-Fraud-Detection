@@ -1,0 +1,75 @@
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import OrdinalEncoder, StandardScaler
+from sklearn.model_selection import train_test_split, StratifiedKFold, RepeatedKFold, RepeatedStratifiedKFold, GridSearchCV
+from sklearn.metrics import roc_auc_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+import warnings
+
+# Ignore warnings
+warnings.filterwarnings('ignore')
+
+# Import TensorFlow
+import tensorflow as tf
+
+# Read the training, testing, and sample submission data
+train = pd.read_csv('C:/Users/hp/Desktop/Kaggle/Kaggle_Competitions/Credit Card Fraud Detection/DATA_playground-series-s3e4/train.csv')
+test = pd.read_csv('C:/Users/hp/Desktop/Kaggle/Kaggle_Competitions/Credit Card Fraud Detection/DATA_playground-series-s3e4/test.csv')
+
+# Data preprocessing
+seconds_per_day = 3600 * 24
+train["Day"] = train["Time"].apply(lambda x: 1 if x < seconds_per_day else 2)
+train["Hour"] = train["Time"].apply(lambda x: (x % seconds_per_day) // 3600 + 1)
+test["Day"] = test["Time"].apply(lambda x: 1 if x < seconds_per_day else 2)
+test["Hour"] = test["Time"].apply(lambda x: (x % seconds_per_day) // 3600 + 1)
+
+# Explore the data
+# Create a correlation matrix and visualize it
+a = train.corr().abs() > 0.3
+sns.heatmap(a)
+
+# Create a bar plot showing the correlation of features with the 'Class' column
+plt.figure(figsize=(15, 8))
+d = train.corr()['Class'][:-1].abs().sort_values().plot(kind='bar', title='Most important features')
+plt.show()
+
+# Create histograms to visualize the distributions of specific features
+fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(13, 8))
+axes[0, 0].hist(train['V17'], bins=60, linewidth=0.5, edgecolor="white")
+axes[0, 0].set_title("V17 distribution")
+# Repeat this for other features (V10, V12, V16, V14, V3, V7, V11, V4)
+
+# Create jointplots to visualize relationships between features
+sns.jointplot(x='V17', y='V14', hue='Class', data=train, palette='dark')
+sns.jointplot(x='V17', y='V12', hue='Class', data=train, palette='dark')
+
+# Drop the 'id' column from the training and test data
+train.drop('id', axis=1, inplace=True)
+test.drop('id', axis=1, inplace=True)
+
+# Model building
+y = train['Class']
+X = train.drop('Class', axis=1)
+
+# Standardize the features
+sc = StandardScaler()
+X = pd.DataFrame(sc.fit_transform(X.values), columns=X.columns, index=X.index)
+test = pd.DataFrame(sc.transform(test.values), columns=test.columns, index=test.index)
+
+# Build a neural network model using TensorFlow/Keras
+# Define the model architecture
+# Compile the model
+# Train the model on the training data
+# Make predictions on the validation data and calculate AUC score
+
+# Build a Decision Tree model and evaluate its performance using cross-validation
+
+# Build a Random Forest model and evaluate its performance using cross-validation
+
+# Save the predictions to a CSV file
+
+# Overall, the code loads and preprocesses the data, explores data relationships, builds and evaluates multiple machine learning models, and saves predictions to a CSV file.
